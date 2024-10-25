@@ -23,3 +23,17 @@ cd poll-app
 python -m venv venv
 source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 ```
+4. Install dependencies:
+ ``` bash
+pip install -r requirements.txt
+```
+5. Run database migrations:
+ ``` bash
+python manage.py migrate
+```
+6. Create a superuser (for the Django admin):
+ ``` bash
+python manage.py createsuperuser
+```
+## 🌟 Contributing
+Feel free to fork the repo and submit pull requests. Any contributions are welcome!
