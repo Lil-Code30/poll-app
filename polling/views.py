@@ -1,27 +1,29 @@
+from typing import Any
 from django.db.models import F
+from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse,  HttpResponseRedirect
 from django.urls import reverse
+from django.views import generic
 
 
 from .models import Question, Choice
 
-# Create your views here.
-def index(request):
-    latest_question_list = Question.objects.order_by("-pub_date")[:10]
-    context = {
-        "latest_question_list": latest_question_list,
-    }
+class IndexView(generic.ListView):
+    template_name = 'polling/index.html'
+    context_object_name = 'latest_question_list'
 
-    return  render(request,"polling/index.html", context)
+    def get_queryset(self):
+        """Return the last ten published questions."""
+        return Question.objects.order_by("-pub_date")[:10]
 
-def detail(request, question_id):
-    question =  get_object_or_404(Question, pk=question_id)
-    return render(request, "polling/detail.html",  {"question": question})
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "polling/detail.html"
 
-def results(request, question_id):
-    question =  get_object_or_404(Question, pk=question_id)
-    return render(request, "polling/results.html",  {"question": question})
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = "polling/results.html"
 
 def vote(request, question_id):
     question =  get_object_or_404(Question, pk=question_id)
