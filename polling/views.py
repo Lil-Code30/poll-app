@@ -8,7 +8,7 @@ from .models import Question, Choice
 
 # Create your views here.
 def index(request):
-    latest_question_list = Question.objects.order_by("-pub_date")[:5]
+    latest_question_list = Question.objects.order_by("-pub_date")[:10]
     context = {
         "latest_question_list": latest_question_list,
     }
@@ -43,4 +43,4 @@ def vote(request, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse("polling:result",  args=(question.id,)))
+        return HttpResponseRedirect(reverse("polling:results",  args=(question.id,)))
